@@ -109,7 +109,7 @@ select {
     width: 16rem;
     font-size: 1.15rem;
     background-color: #fff;
-    padding: 0.675em 1em;
+    padding: 0.575em 1em;
     border: 1px solid #caced1;
     border-radius: 0.45rem;
     cursor: pointer;
@@ -208,4 +208,8 @@ select {
     opacity: 1;
     visibility: visible;
     transform: scaleY(1);
+  }
+
+  .left__flex {
+    width: 33.854166666666664vw;
   }
