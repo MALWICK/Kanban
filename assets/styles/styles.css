@@ -43,7 +43,6 @@ body {
 
 .test {
   width: 18rem;
-  /*  border: 2px solid green; */
 }
 
 .n-select {
@@ -60,7 +59,7 @@ select {
   /* other styles for aesthetics */
   width: 100%;
   font-size: 1.15rem;
-  padding: 0.675em 6em 0.675em 1em;
+  /*  padding: 0.675em 6em 0.675em 1em; */
   background-color: #fff;
   border: 1px solid #caced1;
   border-radius: 0.55rem;
@@ -68,148 +67,527 @@ select {
   cursor: pointer;
 }
 
-.n-select::before,
-.n-select::after {
-  --size: 0.3rem;
-  position: absolute;
-  content: "";
-  right: 1rem;
-  pointer-events: none;
-}
-
-.n-select::before {
-  border-left: var(--size) solid transparent;
-  border-right: var(--size) solid transparent;
-  border-bottom: var(--size) solid black;
-  top: 40%;
-}
-
-.n-select::after {
-  border-left: var(--size) solid transparent;
-  border-right: var(--size) solid transparent;
-  border-top: var(--size) solid black;
-  top: 55%;
-}
-
- option {
-    width: 100%;
-    color:red;
-    background-color: #fff;
-}
-
 .custom-select {
-    position: relative;
-    width: 400px;
-    max-width: 100%;
-    font-size: 1.15rem;
-    color: #000;
-  }
+  position: relative;
+  width: 400px;
+  max-width: 100%;
+  font-size: 1.15rem;
+  color: #000;
+}
+
+.select-button {
+  width: 16rem;
+  font-size: 1.15rem;
+  background-color: #fff;
+  padding: 9px;
+  border: 1px solid #caced1;
+  border-radius: 0.45rem;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-value {
+  text-align: left;
+}
+
+.arrow {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #000;
+  transition: transform ease-in-out 0.3s;
+}
+
+.select-dropdown {
+  position: absolute;
+  list-style: none;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  transition: 0.5s ease;
+
+  transform: scaleY(0);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.select-dropdown:focus-within {
+  box-shadow: 0 10px 25px rgba(94, 108, 233, 0.6);
+}
+
+.select-dropdown li {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.select-dropdown li label {
+  width: 100%;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.select-dropdown::-webkit-scrollbar {
+  width: 7px;
+}
+.select-dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+
+.select-dropdown::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+
+.select-dropdown li:hover,
+.select-dropdown input:checked ~ label {
+  background-color: #f2f2f2;
+}
+
+.select-dropdown input:focus ~ label {
+  background-color: #dfdfdf;
+}
+
+.select-dropdown input[type="radio"] {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+}
+
+/* interactivity */
+
+.custom-select.active .arrow {
+  transform: rotate(180deg);
+}
+
+.custom-select.active .select-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1);
+}
+
+.left__flex {
+  width: 40.854166666666664vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search__container {
+  width: 16rem;
+}
+
+.search__container input {
+  width: 100%;
+  font-size: 1.05rem;
+  padding: 11px;
+  border: 1px solid lightblue;
+  outline: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.45rem;
+  cursor: pointer;
+}
+
+.custom-selects {
+  min-width: 16rem;
+  position: relative;
+}
+
+select {
+  appearance: none;
+  /*  safari  */
+  -webkit-appearance: none;
+  /*  other styles for aesthetics */
+  width: 100%;
+  font-size: 1.15rem;
+  padding: 0.675em 6em 0.675em 1em;
+  /*   background-color: #fff;
+  border: 1px solid #caced1; */
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+  border: 1px solid lightblue;
+  outline: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: #fff;
+}
+
+.main__filter {
+  width: 40px;
+  height: 40px;
+}
+
+.filter__btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  border: 1px solid lightblue;
+  outline: none;
+  padding: 13px !important;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.downlaodOptions {
+  width: 40px;
+}
+
+.downlaodOptions__btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  border: 1px solid lightblue;
+  outline: none;
+  padding: 13px !important;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.downlaodOptions__btn svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.AddOpportunities {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1;
+  font-family: inherit;
+  padding: 0.675em 1em;
+  font-size: 14px !important;
+  height: 43px !important;
+  border-radius: 0.6rem !important;
+  color: white;
+  background-color: #155eef;
+  width: 7.327083333333333vw;
+  white-space: nowrap;
+  outline: none;
+  position: relative;
+  z-index: auto;
+  border: none;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  text-align: center;
+  cursor: pointer;
+  border: none !important;
+  text-decoration: none;
+  transition: color 0.3s var(--n-bezier), background-color 0.3s var(--n-bezier),
+    opacity 0.3s var(--n-bezier), border-color 0.3s var(--n-bezier);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.custom-selects {
+  position: relative;
+
+  max-width: 100%;
+  font-size: 1.15rem;
+  color: #000;
+}
+
+.select-buttons {
+  width: 16rem;
+  font-size: 1.15rem;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #caced1;
+  border-radius: 0.45rem;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-values {
+  text-align: left;
+}
+
+.arrow {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #000;
+  transition: transform ease-in-out 0.3s;
+}
+
+.select-dropdowns {
+  position: absolute;
+  list-style: none;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  transition: 0.5s ease;
+  transform: scaleY(0);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.select-dropdowns:focus-within {
+  box-shadow: 0 10px 25px rgba(94, 108, 233, 0.6);
+}
+
+.MainOpportunities__container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  /* background-color: red; */
+}
+
+.cardMainHolder {
+  width: 98%;
+}
+
+.scrollableCards {
+  width: 100%;
+}
+
+.mainTarget {
+  width: 100%;
+
+  display: grid;
+  width: -moz-fit-content;
+  width: fit-content;
+  grid-auto-flow: column;
+  gap: 0.625rem;
   
-  .select-button {
-    width: 16rem;
-    font-size: 1.15rem;
-    background-color: #fff;
-    padding: 0.575em 1em;
-    border: 1px solid #caced1;
-    border-radius: 0.45rem;
-    cursor: pointer;
-  
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .selected-value {
-    text-align: left;
-  }
-  
-  .arrow {
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #000;
-    transition: transform ease-in-out 0.3s;
-  }
-  
-  .select-dropdown {
-    position: absolute;
-    list-style: none;
+}
+
+.dealsCardContainer{
+  width: 100%;
+  overflow: auto !important;
+
+}
+
+.card__maincontainer {
     width: 100%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
-    border: 1px solid #caced1;
-    border-radius: 4px;
-    padding: 10px;
-    margin-top: 10px;
-    max-height: 200px;
-    overflow-y: auto;
-    transition: 0.5s ease;
-  
-    transform: scaleY(0);
-    opacity: 0;
-    visibility: hidden;
-  }
-  
-  .select-dropdown:focus-within {
-    box-shadow: 0 10px 25px rgba(94, 108, 233, 0.6);
-  }
-  
-  .select-dropdown li {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  .select-dropdown li label {
+    min-height: 100%;
+    overflow: auto;
+}
+
+.card__holder1 {
+  width: 14.895833333333334vw;
+  height:  74.15254237288136vh;
+  min-height: 100%;
+  overflow: auto;
+  border-radius: 0.325rem;
+  font-family: sans-serif,"roboto";
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.innercard__holder {
+  width: 100%;
+}
+
+.cardholder__header {
+  width: 100%;
+  height: 56px;
+  background-color: forestgreen;
+  border: 3px solid forestgreen;
+}
+
+.cardholder__header2 {
     width: 100%;
-    padding: 8px 10px;
-    cursor: pointer;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  .select-dropdown::-webkit-scrollbar {
-    width: 7px;
-  }
-  .select-dropdown::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 25px;
-  }
-  
-  .select-dropdown::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 25px;
-  }
-  
-  .select-dropdown li:hover,
-  .select-dropdown input:checked ~ label {
-    background-color: #f2f2f2;
-  }
-  
-  .select-dropdown input:focus ~ label {
-    background-color: #dfdfdf;
-  }
-  
-  .select-dropdown input[type="radio"] {
-    position: absolute;
-    left: 0;
-    opacity: 0;
-  }
-  
-  /* interactivity */
-  
-  .custom-select.active .arrow {
-    transform: rotate(180deg);
-  }
-  
-  .custom-select.active .select-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: scaleY(1);
+    height: 56px;
+    background-color: red;
+    border: 3px solid red;
   }
 
-  .left__flex {
-    width: 33.854166666666664vw;
+  .cardholder__header3 {
+    width: 100%;
+    height: 56px;
+    background-color: blue;
+    border: 3px solid blue;
   }
+
+  .cardholder__header4 {
+    width: 100%;
+    height: 56px;
+    background-color: orangered;
+    border: 3px solid orangered;
+  }
+
+.cardh__event {
+  width: 100%;
+}
+
+.card__h1content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.numberOf__leads {
+  padding: 8px;
+  width: 100%;
+  height: 35px;
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leadsTotalNumber span {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  color: #667085;
+  line-height: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.lead__Totalvalue span {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  color: black;
+  line-height: 20px;
+}
+
+.deals__card {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid lightgray;
+}
+
+.dealscard__content {
+  width: 100%;
+  height: 70px;
+}
+
+.dealscard__inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 20px;
+  /* background-color: red; */
+}
+
+.dealsName {
+  margin-bottom: 3px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: normal;
+}
+
+.deals__Duration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: forestgreen;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.deals__Duration input {
+  color: forestgreen;
+  border-color: 1px solid forestgreen;
+}
+
+.assignee__information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.assignee__avatar {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  background-color: lightgray;
+  color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.assignee__avatar i {
+  font-size: 12px;
+}
+
+.assignee__name a {
+  text-decoration: none;
+  list-style-type: none;
+  color: #155eef;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: normal;
+}
+
+.assignee__name a:hover {
+    text-decoration: underline;
+    color: black !important;
+}
+
+.assigneeTask__value {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: normal;
+}
+
+.add-Adeal {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+}
+
+.add-Adeal-btn {
+    width: 100%;
+    height: 45px;
+    border: 1px solid lightgray;
+    border-radius: 0.3rem;
+    padding: 4px;
+    font-size: 18px;
+    font-weight: 700;
+    background-color: white;
+    cursor: pointer;
+}
+
+#informationContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

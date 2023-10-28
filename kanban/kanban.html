@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD</title>
+  </head>
+  <body>
+    <h1>Performing Api actions</h1>
+
+    <script>
+        let list = document.getElementById("app").__vue__
+      const contactId = "JM2miJ38103HR0LfQyz8";
+      const opportunitiesId = "piLMAwAJb1M9lVqIPnYg";
+
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImtRNXlRRnMzcnlPWVJ2T3VNSkV6IiwiY29tcGFueV9pZCI6Ikw0bkdZYkdrbFdFc3NuYmt2dmZrIiwidmVyc2lvbiI6MSwiaWF0IjoxNjk4NDIyNzcwNjkxLCJzdWIiOiJMdkN6Vk5wYzN3THd2YWJmOEZQSCJ9.obYm3dIQzCGEGsaN5zlpy309jK7-j44wBFuOaABvqUQ";
+
+      let _headers = new Headers();
+      _headers.append("Authorization", `Bearer ${token} `);
+
+      var requestOptions = {
+        method: "GET",
+        headers: _headers,
+        redirect: "follow",
+      };
+      fetch(
+        ` https://rest.gohighlevel.com/v1/pipelines/MPQxitGYgwKI10JCKJKM/opportunities/${opportunitiesId}`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          const employee = result.assignedTo;
+          console.log(employee);
+        })
+        .catch((error) => console.log("error", error));
+
+      // logic to sort Date
+      const dates = [
+        "2020-10-25T10:00:00.000Z",
+        "2020-10-25T11:10:00Z",
+        "2020-11-25T11:30:00Z",
+      ];
+      const dateObjects = dates.map((dateStr) => new Date(dateStr));
+      dateObjects.sort((date1, date2) => date2.getTime() - date1.getTime());
+      const mostRecentDate = dateObjects[0];
+      console.log(mostRecentDate);
+
+      // current time
+      let today = new Date();
+      let time = today.getHours();
+      console.log(`current time is ${time}h`)
+    </script>
+  </body>
+</html>
