@@ -1,55 +1,55 @@
-// Example array of tasks with due dates
 
 import users from "./users.js";
 
-users.map((user) => {
-  const cardHolder = document.createElement('div');
-  cardHolder.classList.add('card__holder1', 'card');
+const cardHolder = document.createElement('div');
+cardHolder.classList.add('card__holder1', 'card');
 
-  const innerCardHolder = document.createElement('div');
-  innerCardHolder.classList.add('innercard__holder');
+console.log(1);
+const innerCardHolder = document.createElement('div');
+innerCardHolder.classList.add('innercard__holder');
+console.log(2);
+// Create the div element with class "cardholder__header"
+const cardHeader = document.createElement('div');
+cardHeader.classList.add('cardholder__header');
+console.log(3);
+// Create the div element with class "hl-card-content" and "card__h1content"
+const hlCardContent = document.createElement('div');
+hlCardContent.classList.add('hl-card-content', 'card__h1content');
+console.log(4);
+// Create the div element with class "cardhevent" and id "OpportunitiescolumnName"
+const cardEvent = document.createElement('div');
+cardEvent.classList.add('cardh__event');
+cardEvent.id = 'Opportunities__columnName';
+cardEvent.innerHTML = '<span>Call 2 (Day 2)</span>';
+console.log(5);
+const headerIconContainer = document.createElement('div');
+headerIconContainer.classList.add('headerIcon__container');
+console.log(6);
+hlCardContent.appendChild(cardEvent);
+hlCardContent.appendChild(headerIconContainer);
+console.log(7);
+// Append the hl-card-content to the card header
+cardHeader.appendChild(hlCardContent);
+console.log(8);
+// Create the div element with class "numberOf__leads"
+const numberOfLeads = document.createElement('div');
+numberOfLeads.classList.add('numberOf__leads');
+console.log(9);
+const leadsTotalNumber = document.createElement('div');
+leadsTotalNumber.classList.add('leadsTotalNumber');
+leadsTotalNumber.id = 'leads__TotalNumber';
+leadsTotalNumber.innerHTML = '<span>43 Leads</span>';
+console.log(10);
+const leadTotalValue = document.createElement('div');
+leadTotalValue.classList.add('lead__Totalvalue');
+leadTotalValue.id = 'lead__Totalvalue';
+leadTotalValue.innerHTML = '<span>$F21,910.00Uad</span>';
 
-  // Create the div element with class "cardholder__header"
-  const cardHeader = document.createElement('div');
-  cardHeader.classList.add('cardholder__header');
+// Append the leadsTotalNumber and leadTotalValue to the numberOfLeads
+numberOfLeads.appendChild(leadsTotalNumber);
+numberOfLeads.appendChild(leadTotalValue);
 
-  // Create the div element with class "hl-card-content" and "card__h1content"
-  const hlCardContent = document.createElement('div');
-  hlCardContent.classList.add('hl-card-content', 'card__h1content');
-
-  // Create the div element with class "cardhevent" and id "OpportunitiescolumnName"
-  const cardEvent = document.createElement('div');
-  cardEvent.classList.add('cardh__event');
-  cardEvent.id = 'Opportunities__columnName';
-  cardEvent.innerHTML = '<span>Call 2 (Day 2)</span>';
-
-  const headerIconContainer = document.createElement('div');
-  headerIconContainer.classList.add('headerIcon__container');
-
-  hlCardContent.appendChild(cardEvent);
-  hlCardContent.appendChild(headerIconContainer);
-
-  // Append the hl-card-content to the card header
-  cardHeader.appendChild(hlCardContent);
-
-  // Create the div element with class "numberOf__leads"
-  const numberOfLeads = document.createElement('div');
-  numberOfLeads.classList.add('numberOf__leads');
-
-  const leadsTotalNumber = document.createElement('div');
-  leadsTotalNumber.classList.add('leadsTotalNumber');
-  leadsTotalNumber.id = 'leads__TotalNumber';
-  leadsTotalNumber.innerHTML = '<span>43 Leads</span>';
-
-  const leadTotalValue = document.createElement('div');
-  leadTotalValue.classList.add('lead__Totalvalue');
-  leadTotalValue.id = 'lead__Totalvalue';
-  leadTotalValue.innerHTML = '<span>$F21,910.00Uad</span>';
-
-  // Append the leadsTotalNumber and leadTotalValue to the numberOfLeads
-  numberOfLeads.appendChild(leadsTotalNumber);
-  numberOfLeads.appendChild(leadTotalValue);
-
+users.forEach((user) => {
   const dealsCardContainer = document.createElement('div');
   dealsCardContainer.classList.add('card', 'dealsCardContainer');
 
@@ -79,57 +79,58 @@ users.map((user) => {
   const Informationcontent = document.createElement('div');
   Informationcontent.classList.add('informationContent');
   Informationcontent.id = 'informationContent';
-  
+
   // Create the div element with class "assignee__information" and id "assignee__information"
   const assigneeInformation1 = document.createElement('div');
   assigneeInformation1.classList.add('assignee__information');
-  assigneeInformation1.id = 'assignToName';
-  assigneeInformation1.innerHTML= `${user.name}`;
-  
+  assigneeInformation1.id = 'assignee__information';
+  assigneeInformation1.innerHTML = `${user.name}`;
+
   // Create the div element with class "assignee__avatar" and id "assignee__img"
   const assigneeAvatar1 = document.createElement('div');
   assigneeAvatar1.classList.add('assignee__avatar', 'avatar');
   assigneeAvatar1.id = 'assignee__avatar';
-  
-  //create avartar Icons
-  const avartarIcon = document.createElement('i');
-  avartarIcon.classList.add('fa-solid', 'fa-user');
-  
-  
-  //append avartar Icons to assigneeAvartar1
-  assigneeAvatar1.appendChild(avartarIcon);
-  
-  //Create assigneeTask__value
-  const assigneeTask__value = document.createElement('div');
-  assigneeTask__value.classList.add('assigneeTask__value');
-  assigneeTask__value.id = 'assigneeTask__value';
-  assigneeTask__value.innerHTML = `${user.value}`;
-  
-  
-  // Append the assigneeAvatar1 to the assigneeInformation1
+
+  // Create avatar Icons
+  const avatarIcon = document.createElement('i');
+  avatarIcon.classList.add('fa-solid', 'fa-user');
+
+  // Append avatar Icons to assigneeAvatar1
+  assigneeAvatar1.appendChild(avatarIcon);
+  console.log(18);
+  // Create assigneeTask__value
+  const assigneeTaskValue = document.createElement('div');
+  assigneeTaskValue.classList.add('assigneeTask__value');
+  assigneeTaskValue.id = 'assigneeTask__value';
+  assigneeTaskValue.innerHTML = `${user.value}`;
+
+  // Append assigneeAvatar1 to assigneeInformation1
   assigneeInformation1.appendChild(assigneeAvatar1);
-  
-  //append Information and assigneeTask__value to Informationcontent
+  console.log(20);
+  // Append Informationcontent and assigneeTaskValue to Informationcontent
   Informationcontent.appendChild(assigneeInformation1);
-  Informationcontent.appendChild(assigneeTask__value);
-  
-  
-  // Append the dealsCardInner1 and assigneeInformation1 to the dealsCardContent1
-  dealsCardContent1.appendChild(dealsCardInner1);
-  dealsCardContent1.appendChild(Informationcontent)
+  Informationcontent.appendChild(assigneeTaskValue);
+  console.log(28);
+ // Append dealsCardInner1 and Informationcontent to dealsCardContent1
+ dealsCardContent1.appendChild(dealsCardInner1);
+ dealsCardContent1.appendChild(Informationcontent);
 
-  dealsCard1.appendChild(dealsCardContent1);
-  dealsCardContainer.appendChild(dealsCard1);
+ // Append dealsCardContent1 to dealsCard1
+ dealsCard1.appendChild(dealsCardContent1);
 
-  innerCardHolder.appendChild(cardHeader);
-  innerCardHolder.appendChild(numberOfLeads);
-  innerCardHolder.appendChild(dealsCardContainer);
+ // Append dealsCard1 to dealsCardContainer
+ dealsCardContainer.appendChild(dealsCard1);
 
-  cardHolder.appendChild(innerCardHolder);
-
-  // Append the cardHolder to the desired element in your document
-  // For example:
-  const mainTarget = document.getElementById('mainTarget');
-mainTarget.appendChild(cardHolder);
-
+ // Append dealsCardContainer to innerCardHolder
+ innerCardHolder.appendChild(dealsCardContainer);
 });
+
+// Append cardHeader, numberOfLeads, and innerCardHolder to cardHolder
+cardHolder.appendChild(cardHeader);
+cardHolder.appendChild(numberOfLeads);
+cardHolder.appendChild(innerCardHolder);
+
+// Append cardHolder to the desired container in your HTML
+
+const mainTarget = document.getElementById('mainTarget');
+mainTarget.appendChild(cardHolder);
