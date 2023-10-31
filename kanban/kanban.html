@@ -9,47 +9,219 @@
     <h1>Performing Api actions</h1>
 
     <script>
-        let list = document.getElementById("app").__vue__
-      const contactId = "JM2miJ38103HR0LfQyz8";
-      const opportunitiesId = "piLMAwAJb1M9lVqIPnYg";
 
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImtRNXlRRnMzcnlPWVJ2T3VNSkV6IiwiY29tcGFueV9pZCI6Ikw0bkdZYkdrbFdFc3NuYmt2dmZrIiwidmVyc2lvbiI6MSwiaWF0IjoxNjk4NDIyNzcwNjkxLCJzdWIiOiJMdkN6Vk5wYzN3THd2YWJmOEZQSCJ9.obYm3dIQzCGEGsaN5zlpy309jK7-j44wBFuOaABvqUQ";
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImtRNXlRRnMzcnlPWVJ2T3VNSkV6IiwiY29tcGFueV9pZCI6Ikw0bkdZYkdrbFdFc3NuYmt2dmZrIiwidmVyc2lvbiI6MSwiaWF0IjoxNjk4NDIyNzcwNjkxLCJzdWIiOiJMdkN6Vk5wYzN3THd2YWJmOEZQSCJ9.obYm3dIQzCGEGsaN5zlpy309jK7-j44wBFuOaABvqUQ";
 
-      let _headers = new Headers();
-      _headers.append("Authorization", `Bearer ${token} `);
+// getting user id (assignTo)
+export async function contactCredentials() {
+  const fullData = document.getElementById("app")._vue_;
+  const data = fullData.$store.getters.users / getAll;
+  let employee;
+  let employer;
+  let monetaryVal = 0;
+  let opportunityName = "";
+  let taskArray = [];
+  let tasksWithMostRecentDueDate = [];
 
-      var requestOptions = {
-        method: "GET",
-        headers: _headers,
-        redirect: "follow",
-      };
-      fetch(
-        ` https://rest.gohighlevel.com/v1/pipelines/MPQxitGYgwKI10JCKJKM/opportunities/${opportunitiesId}`,
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          const employee = result.assignedTo;
-          console.log(employee);
-        })
-        .catch((error) => console.log("error", error));
+  let _headers = new Headers();
+  _headers.append("Authorization", `Bearer ${token} `);
 
-      // logic to sort Date
-      const dates = [
-        "2020-10-25T10:00:00.000Z",
-        "2020-10-25T11:10:00Z",
-        "2020-11-25T11:30:00Z",
-      ];
-      const dateObjects = dates.map((dateStr) => new Date(dateStr));
-      dateObjects.sort((date1, date2) => date2.getTime() - date1.getTime());
-      const mostRecentDate = dateObjects[0];
-      console.log(mostRecentDate);
+  var requestOptions = {
+    method: "GET",
+    headers: _headers,
+    redirect: "follow",
+  };
+  await fetch(
+    ` https://rest.gohighlevel.com/v1/pipelines/MPQxitGYgwKI10JCKJKM/opportunities/krr78o0l7rfkozoQ78Bo`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      employee = result.assignedTo;
+      employer = result.contact.id;
+      monetaryVal = result.monetaryValue;
+      opportunityName = result.name;
+      console.log(monetaryVal);
+    })
+    .catch((error) => console.log("error", error));
 
-      // current time
-      let today = new Date();
-      let time = today.getHours();
-      console.log(`current time is ${time}h`)
+  // let desiredId = "f5Xj1Lp9GmMLUV4jNHRN";  employee =  user it found in the mock array (data),
+  const filteredObjects = data.find((obj) => obj._id === employee);
+  const assigToName = filteredObjects._data.name; // name to use
+
+  await fetch(
+    `https://rest.gohighlevel.com/v1/contacts/${employer}/tasks/`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      taskArray = result;
+    })
+    .catch((error) => console.log("error", error));
+  const assignedToTaskArray = taskArray.tasks.filter(
+    (task) => task.assignedTo === employee
+    // task.assignedTo === "2kmSSouNyjaZZRbYXzsi" use instead employee variable
+  );
+
+  if (assignedToTaskArray.length == 1) {
+    // repace date by assignedToTaskArray
+    tasksWithMostRecentDueDate = assignedToTaskArray; // date;
+  } else {
+    const mostRecentDueDate = assignedToTaskArray.reduce(
+      (maxDueDate, assignedToTaskArray) => {
+        return new Date(assignedToTaskArray.dueDate) < maxDueDate
+          ? new Date(assignedToTaskArray.dueDate)
+          : maxDueDate;
+      },
+      new Date(assignedToTaskArray[0].dueDate)
+    );
+
+    tasksWithMostRecentDueDate = assignedToTaskArray.filter(
+      (task) => new Date(task.dueDate).getTime() === mostRecentDueDate.getTime()
+    );
+  }
+
+  const UserInfo = tasksWithMostRecentDueDate.map((item) => {
+    return {
+      ...item,
+      value: monetaryVal,
+      name: assigToName,
+      opportunityNam: opportunityName,
+    };
+  });
+  return UserInfo;
+}
+
+const UserInfo = contactCredentials();
+console.log(UserInfo);
+
+const cardHolder = document.createElement("div");
+cardHolder.classList.add("card__holder1", "card");
+
+console.log(1);
+const innerCardHolder = document.createElement("div");
+innerCardHolder.classList.add("innercard__holder");
+console.log(2);
+// Create the div element with class "cardholder__header"
+
+
+contactCredentials().then((userdata) => {
+  userdata.forEach((user) => {
+    const dueTime = new Date(user.dueDate);
+
+    const currentTime = new Date();
+    const timeDifferenceInMilliseconds =
+      dueTime.getTime() - currentTime.getTime();
+    const hoursRemaining = Math.floor(
+      Math.abs(timeDifferenceInMilliseconds) / (1000 * 60 * 60)
+    );
+
+    let remainingTime;
+    if (timeDifferenceInMilliseconds < 0) {
+      remainingTime = "Past due";
+    } else if (hoursRemaining >= 24) {
+      const daysRemaining = Math.floor(hoursRemaining / 24);
+      remainingTime = `${daysRemaining} days`;
+    } else {
+      remainingTime = `${hoursRemaining} hours`;
+    }
+
+    let formattedTime = remainingTime;
+    let textColor = "black";
+    if (timeDifferenceInMilliseconds < 0) {
+      textColor = "red";
+    }
+
+    formattedTime = `<span style="color: ${textColor};">${formattedTime}</span>`;
+
+    console.log(`Remaining time: ${formattedTime}`);
+
+    const dealsCardContainer = document.createElement("div");
+    dealsCardContainer.classList.add( "card","dealsCardContainer");
+
+    const dealsCard1 = document.createElement("div");
+    dealsCard1.classList.add("deals__card");
+
+    // Create the dealscard__content div element
+    const dealsCardContent1 = document.createElement("div");
+    dealsCardContent1.classList.add("dealscard__content");
+
+    const dealsCardInner1 = document.createElement("div");
+    dealsCardInner1.classList.add("dealscard__inner");
+
+    const dealsName1 = document.createElement("div");
+    dealsName1.classList.add("dealsName");
+    dealsName1.id = "deals__Name";
+    dealsName1.innerHTML = `<span>${user.opportunityNam}</span>`;
+
+    const dealsDuration1 = document.createElement("div");
+    dealsDuration1.classList.add("deals__Duration");
+    dealsDuration1.innerHTML = `<input type="checkbox" name="dealsName" id="deals__timeChecker"><span class="dealTime" id="deals__WorkHours" style="color: ${textColor}">${remainingTime}</span>`;
+
+    dealsCardInner1.appendChild(dealsName1);
+    dealsCardInner1.appendChild(dealsDuration1);
+
+    // Deals Informationcontent
+    const Informationcontent = document.createElement("div");
+    Informationcontent.classList.add("informationContent");
+    Informationcontent.id = "informationContent";
+
+    // Create the div element with class "assignee__information" and id "assignee__information"
+    const assigneeInformation1 = document.createElement("div");
+    assigneeInformation1.classList.add("assignee__information");
+    assigneeInformation1.id = "assignee__information";
+    assigneeInformation1.innerHTML = `${user.name}`;
+
+    // Create the div element with class "assignee__avatar" and id "assignee__img"
+    const assigneeAvatar1 = document.createElement("div");
+    assigneeAvatar1.classList.add("assignee__avatar", "avatar");
+    assigneeAvatar1.id = "assignee__avatar";
+
+    // Create avatar Icons
+    const avatarIcon = document.createElement("i");
+    avatarIcon.classList.add("fa-solid", "fa-user");
+
+    // Append avatar Icons to assigneeAvatar1
+    assigneeAvatar1.appendChild(avatarIcon);
+    console.log(18);
+    // Create assigneeTask__value
+    const assigneeTaskValue = document.createElement("div");
+    assigneeTaskValue.classList.add("assigneeTask__value");
+    assigneeTaskValue.id = "assigneeTask__value";
+    assigneeTaskValue.innerHTML = ` F${user.value}`;
+
+    // Append assigneeAvatar1 to assigneeInformation1
+    assigneeInformation1.appendChild(assigneeAvatar1);
+    console.log(20);
+    // Append Informationcontent and assigneeTaskValue to Informationcontent
+    Informationcontent.appendChild(assigneeInformation1);
+    Informationcontent.appendChild(assigneeTaskValue);
+    console.log(28);
+    // Append dealsCardInner1 and Informationcontent to dealsCardContent1
+    dealsCardContent1.appendChild(dealsCardInner1);
+    dealsCardContent1.appendChild(Informationcontent);
+
+    // Append dealsCardContent1 to dealsCard1
+    dealsCard1.appendChild(dealsCardContent1);
+
+    // Append dealsCard1 to dealsCardContainer
+    dealsCardContainer.appendChild(dealsCard1);
+
+    // Append dealsCardContainer to innerCardHolder
+    innerCardHolder.appendChild(dealsCardContainer);
+  });
+});
+
+// Append cardHeader, numberOfLeads, and innerCardHolder to cardHolder
+
+cardHolder.appendChild(innerCardHolder);
+
+// Append cardHolder to the desired container in your HTML
+
+const mainTarget = document.getElementById("card");
+mainTarget.appendChild(cardHolder);
+
     </script>
   </body>
 </html>

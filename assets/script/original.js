@@ -3,18 +3,16 @@ const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImtRNXlRRnMzcnlPWVJ2T3VNSkV6IiwiY29tcGFueV9pZCI6Ikw0bkdZYkdrbFdFc3NuYmt2dmZrIiwidmVyc2lvbiI6MSwiaWF0IjoxNjk4NDIyNzcwNjkxLCJzdWIiOiJMdkN6Vk5wYzN3THd2YWJmOEZQSCJ9.obYm3dIQzCGEGsaN5zlpy309jK7-j44wBFuOaABvqUQ";
 
 
- async function contactCredentials() {
-  const fullData =document.getElementById("app").__vue__;
-  
-  console.log("fullData", fullData)
-  const data = fullData.$store.getters["users/getAll"]
+export async function contactCredentials() {
+  const fullData = document.getElementById("app")._vue_;
+  const data = fullData.$store.getters.users / getAll;
   let employee;
   let employer;
   let monetaryVal = 0;
   let opportunityName = "";
   let taskArray = [];
   let tasksWithMostRecentDueDate = [];
-  console.log(1);
+
   let _headers = new Headers();
   _headers.append("Authorization", `Bearer ${token} `);
 
@@ -23,9 +21,8 @@ const token =
     headers: _headers,
     redirect: "follow",
   };
-  console.log(2);
   await fetch(
-    ` https://rest.gohighlevel.com/v1/pipelines/MPQxitGYgwKI10JCKJKM/opportunities/CTd4UKLpsRevFb7D3d9o`,
+    ` https://rest.gohighlevel.com/v1/pipelines/MPQxitGYgwKI10JCKJKM/opportunities/krr78o0l7rfkozoQ78Bo`,
     requestOptions
   )
     .then((response) => response.json())
@@ -37,15 +34,10 @@ const token =
       console.log(monetaryVal);
     })
     .catch((error) => console.log("error", error));
- 
-    const filteredObjects = data.find((obj) => obj._data.id === employee);
 
-    if (filteredObjects) {
-      const assigToName = filteredObjects._data.name;
-      console.log(assigToName); // Bob
-    } else {
-      console.log("Employee not found");
-    }
+ 
+  const filteredObjects = data.find((obj) => obj._id === employee);
+  const assigToName = filteredObjects._data.name; 
 
   await fetch(
     `https://rest.gohighlevel.com/v1/contacts/${employer}/tasks/`,
@@ -60,8 +52,6 @@ const token =
     (task) => task.assignedTo === employee
   
   );
-
-  console.log(4);
 
   if (assignedToTaskArray.length == 1) {
  
@@ -80,7 +70,7 @@ const token =
       (task) => new Date(task.dueDate).getTime() === mostRecentDueDate.getTime()
     );
   }
-  console.log(5);
+
   const UserInfo = tasksWithMostRecentDueDate.map((item) => {
     return {
       ...item,
@@ -91,12 +81,11 @@ const token =
   });
   return UserInfo;
 }
-console.log(6);
+
 const UserInfo = contactCredentials();
 console.log(UserInfo);
 
-const dealsCardContainer = document.createElement("div");
-dealsCardContainer.classList.add( "hl-card-content","dealsCardContainer");
+
 
 contactCredentials().then((userdata) => {
   userdata.forEach((user) => {
@@ -108,7 +97,7 @@ contactCredentials().then((userdata) => {
     const hoursRemaining = Math.floor(
       Math.abs(timeDifferenceInMilliseconds) / (1000 * 60 * 60)
     );
-    console.log(7);
+
     let remainingTime;
     if (timeDifferenceInMilliseconds < 0) {
       remainingTime = "Past due";
@@ -118,22 +107,23 @@ contactCredentials().then((userdata) => {
     } else {
       remainingTime = `${hoursRemaining} hours`;
     }
-    console.log(8);
+
     let formattedTime = remainingTime;
     let textColor = "black";
     if (timeDifferenceInMilliseconds < 0) {
       textColor = "red";
     }
-    console.log(9);
+
     formattedTime = `<span style="color: ${textColor};">${formattedTime}</span>`;
 
     console.log(`Remaining time: ${formattedTime}`);
 
-  
+    const dealsCardContainer = document.createElement("div");
+    dealsCardContainer.classList.add( "hl-card-content","dealsCardContainer");
 
     const dealsCard1 = document.createElement("div");
     dealsCard1.classList.add("deals__card");
-    console.log(10);
+
    
     const dealsCardContent1 = document.createElement("div");
     dealsCardContent1.classList.add("dealscard__content");
@@ -145,7 +135,7 @@ contactCredentials().then((userdata) => {
     dealsName1.classList.add("dealsName");
     dealsName1.id = "deals__Name";
     dealsName1.innerHTML = `<span>${user.opportunityNam}</span>`;
-    console.log(12);
+
     const dealsDuration1 = document.createElement("div");
     dealsDuration1.classList.add("deals__Duration");
     dealsDuration1.innerHTML = `<input type="checkbox" name="dealsName" id="deals__timeChecker"><span class="dealTime" id="deals__WorkHours" style="color: ${textColor}">${remainingTime}</span>`;
@@ -157,7 +147,7 @@ contactCredentials().then((userdata) => {
     const Informationcontent = document.createElement("div");
     Informationcontent.classList.add("informationContent");
     Informationcontent.id = "informationContent";
-    console.log(14);
+
   
     const assigneeInformation1 = document.createElement("div");
     assigneeInformation1.classList.add("assignee__information");
@@ -168,7 +158,7 @@ contactCredentials().then((userdata) => {
     const assigneeAvatar1 = document.createElement("div");
     assigneeAvatar1.classList.add("assignee__avatar", "avatar");
     assigneeAvatar1.id = "assignee__avatar";
-    console.log(19);
+
   
     const avatarIcon = document.createElement("i");
     avatarIcon.classList.add("fa-solid", "fa-user");
@@ -198,14 +188,12 @@ contactCredentials().then((userdata) => {
   
     dealsCardContainer.appendChild(dealsCard1);
 
+  
+    innerCardHolder.appendChild(dealsCardContainer);
   });
-
-  const mainTarget = document.querySelector(".card");
-  if (mainTarget) {
-    mainTarget.appendChild(dealsCardContainer);
-  } else {
-    console.error("Main target element not found.");
-  }
 });
 
 
+
+const mainTarget = document.querySelector(".card");
+mainTarget.appendChild(dealsCardContainer);
