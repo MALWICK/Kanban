@@ -1,99 +1,8 @@
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6ImtRNXlRRnMzcnlPWVJ2T3VNSkV6IiwiY29tcGFueV9pZCI6Ikw0bkdZYkdrbFdFc3NuYmt2dmZrIiwidmVyc2lvbiI6MSwiaWF0IjoxNjk4NDIyNzcwNjkxLCJzdWIiOiJMdkN6Vk5wYzN3THd2YWJmOEZQSCJ9.obYm3dIQzCGEGsaN5zlpy309jK7-j44wBFuOaABvqUQ";
-
-async function contactCredentials() {
-  const fullData = document.getElementById("app").__vue__;
-
-  const data = fullData.$store.getters["users/getAll"];
-  let employee;
-  let employer;
-  let monetaryVal = 0;
-  let opportunityName = "";
-  let taskArray = [];
-  let assigToName = "";
-  let tasksWithMostRecentDueDate = [];
-  let DisplayTask = [];
-  let _headers = new Headers();
-  _headers.append("Authorization", `Bearer ${token} `);
-
-  var requestOptions = {
-    method: "GET",
-    headers: _headers,
-    redirect: "follow",
-  };
-
-  await fetch(
-    ` https://rest.gohighlevel.com/v1/pipelines/MPQxitGYgwKI10JCKJKM/opportunities/EpHvWNslTNNBzOD6ry2c`,
-    requestOptions
-  )
-    .then((response) => response.json())
-    .then((result) => {
-      employee = result.assignedTo;
-      employer = result.contact.id;
-      monetaryVal = result.monetaryValue;
-      opportunityName = result.name;
-    })
-    .catch((error) => console.log("error", error));
-
-  const filteredObjects = data.find((obj) => obj._data.id === employee);
-
-  if (filteredObjects) {
-    assigToName = filteredObjects._data.name;
-  } else {
-    console.log("Employee not found");
-  }
-
-  await fetch(
-    `https://rest.gohighlevel.com/v1/contacts/${employer}/tasks/`,
-    requestOptions
-  )
-    .then((response) => response.json())
-    .then((result) => {
-      taskArray = result;
-    })
-    .catch((error) => console.log("error", error));
-
-  const assignedToTaskArray = taskArray.tasks.filter(
-    (task) => task.isCompleted === false
-  );
-  console.log("assignedToTaskArray", assignedToTaskArray);
-  if (assignedToTaskArray.length == 1) {
-    DisplayTask = assignedToTaskArray;
-  } else {
-    const mostRecentDueDate = assignedToTaskArray.reduce(
-      (maxDueDate, assignedToTaskArray) => {
-        return new Date(assignedToTaskArray.dueDate) < maxDueDate
-          ? new Date(assignedToTaskArray.dueDate)
-          : maxDueDate;
-      },
-      new Date(assignedToTaskArray[0].dueDate)
-    );
-
-    tasksWithMostRecentDueDate = assignedToTaskArray.filter(
-      (task) => new Date(task.dueDate).getTime() === mostRecentDueDate.getTime()
-    );
-  }
-  DisplayTask = tasksWithMostRecentDueDate.slice(0, 1);
-
-  console.log("Display", DisplayTask, typeof DisplayTask);
-  const UserInfo = DisplayTask.map((item) => {
-    return {
-      ...item,
-      value: monetaryVal,
-      name: assigToName,
-      opportunityNam: opportunityName,
-    };
-  });
-  console.log(UserInfo);
-  return UserInfo;
-}
-const UserInfo = contactCredentials();
-
-
 
 
 const opportunitiesList = document.getElementById('OpportunitiesList');
 const cards = opportunitiesList.querySelectorAll('.card');
+cards.appendChild(dealsCardContainer);
 
 
 // Append the inner content to all of the cards.
@@ -188,6 +97,6 @@ contactCredentials().then((userdata) => {
     dealsCardContainer.appendChild(dealsCard1);
   
   });
-  cards.appendChild(dealsCardContainer);
+
 });
 
